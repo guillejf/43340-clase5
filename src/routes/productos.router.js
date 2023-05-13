@@ -1,18 +1,8 @@
-const express = require("express");
-const app = express();
-const port = 3000;
+import express from "express";
+export const routerProductos = express.Router();
+import { productos, pets } from "../utils.js";
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-let productos = [
-  { id: "1000000", name: "pelota boca", precio: 100 },
-  { id: "1000001", name: "pelota river", precio: -10 },
-  { id: "1000002", name: "pelota tigre", precio: 5 },
-  { id: "1000004", name: "pelota manchester", precio: 100 },
-];
-
-app.get("/productos", (req, res) => {
+routerProductos.get("/", (req, res) => {
   const precio = req.query.precio;
   if (req.query && precio) {
     const productosFiltradosPorPrecio = productos.filter(
@@ -32,7 +22,7 @@ app.get("/productos", (req, res) => {
   }
 });
 
-app.get("/productos/:id", (req, res) => {
+routerProductos.get("/:id", (req, res) => {
   const id = req.params.id;
   const producto = productos.find((p) => p.id == id);
   if (producto) {
@@ -50,7 +40,7 @@ app.get("/productos/:id", (req, res) => {
   }
 });
 
-app.delete("/productos/:id", (req, res) => {
+routerProductos.delete("/:id", (req, res) => {
   const id = req.params.id;
   //const producto = productos.find((p) => p.id == id);
   productos = productos.filter((p) => p.id != id);
@@ -62,7 +52,7 @@ app.delete("/productos/:id", (req, res) => {
   });
 });
 
-app.put("/productos/:id", (req, res) => {
+routerProductos.put("/:id", (req, res) => {
   const id = req.params.id; //10000
   const datosNuevos = req.body; // {name: otra cosa , precio: 666}
   const indice = productos.findIndex((p) => p.id == id);
@@ -82,7 +72,7 @@ app.put("/productos/:id", (req, res) => {
   }
 });
 
-app.post("/productos", (req, res) => {
+routerProductos.post("/", (req, res) => {
   const productoParaCrear = req.body;
   productoParaCrear.id = (Math.random() * 1000000000).toFixed(0);
   productoParaCrear.fecha = Date.now();
@@ -92,16 +82,4 @@ app.post("/productos", (req, res) => {
     msg: "creamos el producto que pediste",
     data: productoParaCrear,
   });
-});
-
-app.get("*", (req, res) => {
-  return res.status(404).json({
-    status: "error",
-    msg: "error esa ruta no existe",
-    data: {},
-  });
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
 });
