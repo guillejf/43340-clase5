@@ -3,6 +3,7 @@ export const routerProductos = express.Router();
 import { productos, pets } from "../utils.js";
 
 routerProductos.get("/", (req, res) => {
+  console.log("hola mundo");
   const precio = req.query.precio;
   if (req.query && precio) {
     const productosFiltradosPorPrecio = productos.filter(
