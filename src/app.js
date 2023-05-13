@@ -1,4 +1,5 @@
 import express from "express";
+import { routerPets } from "./routes/pets.router.js";
 import { routerProductos } from "./routes/productos.router.js";
 const app = express();
 const port = 3000;
@@ -8,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //TODOS NUESTROS ENDPOINT
 app.use("/productos", routerProductos);
-// app.use("/pets", routerPets);
+app.use("/pets", routerPets);
 
 app.get("*", (req, res) => {
   return res.status(404).json({

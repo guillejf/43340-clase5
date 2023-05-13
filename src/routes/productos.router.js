@@ -1,6 +1,7 @@
 import express from "express";
+import { productos } from "../utils.js";
+
 export const routerProductos = express.Router();
-import { productos, pets } from "../utils.js";
 
 routerProductos.get("/", (req, res) => {
   console.log("hola mundo");
@@ -43,7 +44,6 @@ routerProductos.get("/:id", (req, res) => {
 
 routerProductos.delete("/:id", (req, res) => {
   const id = req.params.id;
-  //const producto = productos.find((p) => p.id == id);
   productos = productos.filter((p) => p.id != id);
 
   return res.status(200).json({
@@ -54,8 +54,8 @@ routerProductos.delete("/:id", (req, res) => {
 });
 
 routerProductos.put("/:id", (req, res) => {
-  const id = req.params.id; //10000
-  const datosNuevos = req.body; // {name: otra cosa , precio: 666}
+  const id = req.params.id;
+  const datosNuevos = req.body;
   const indice = productos.findIndex((p) => p.id == id);
   if (indice == -1) {
     return res.status(404).json({
