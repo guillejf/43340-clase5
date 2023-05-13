@@ -7,6 +7,8 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//archivos publicos
+app.use(express.static("public"));
 //TODOS NUESTROS ENDPOINT
 app.use("/productos", routerProductos);
 app.use("/pets", routerPets);
