@@ -1,5 +1,6 @@
 import express from "express";
 import { pets } from "../utils.js";
+import { uploader } from "../utils.js";
 export const routerPets = express.Router();
 
 routerPets.get("/", (req, res) => {
@@ -69,10 +70,19 @@ routerPets.put("/:id", (req, res) => {
   }
 });
 
-routerPets.post("/" /* , multer.subirfoto() */, (req, res) => {
+routerPets.post("/", uploader.single("file"), (req, res) => {
+  if (!req.file) {
+    res.status(400).send({
+      status: "error",
+      msg: "error no enviaste una foto o no se puedo subir la misma",
+      data: {},
+    });
+  }
+
   const petParaCrear = req.body;
   petParaCrear.id = (Math.random() * 1000000000).toFixed(0);
   petParaCrear.fecha = Date.now();
+  petParaCrear.file = "http://localhost:3000/" + req.file.filename;
   pets.push(petParaCrear);
   return res.status(201).json({
     status: "success",
