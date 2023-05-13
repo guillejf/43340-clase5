@@ -1,14 +1,16 @@
 import express from "express";
 import { routerPets } from "./routes/pets.router.js";
 import { routerProductos } from "./routes/productos.router.js";
+import { __dirname } from "./utils.js";
 const app = express();
 const port = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// console.log(__dirname + "/public");
 //archivos publicos
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 //TODOS NUESTROS ENDPOINT
 app.use("/productos", routerProductos);
 app.use("/pets", routerPets);

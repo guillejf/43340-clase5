@@ -69,7 +69,7 @@ routerPets.put("/:id", (req, res) => {
   }
 });
 
-routerPets.post("/", (req, res) => {
+routerPets.post("/" /* , multer.subirfoto() */, (req, res) => {
   const petParaCrear = req.body;
   petParaCrear.id = (Math.random() * 1000000000).toFixed(0);
   petParaCrear.fecha = Date.now();

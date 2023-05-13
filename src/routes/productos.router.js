@@ -2,9 +2,7 @@ import express from "express";
 import { productos } from "../utils.js";
 
 export const routerProductos = express.Router();
-
 routerProductos.get("/", (req, res) => {
-  console.log("hola mundo");
   const precio = req.query.precio;
   if (req.query && precio) {
     const productosFiltradosPorPrecio = productos.filter(

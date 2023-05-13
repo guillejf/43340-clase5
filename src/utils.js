@@ -10,3 +10,6 @@ export let pets = [
   { id: "1000001", name: "guillepet", edad: 40 },
   { id: "1000002", name: "picachu", edad: 5 },
 ];
+
+import path from "path";
+export const __dirname = path.dirname(new URL(import.meta.url).pathname);
