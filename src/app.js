@@ -1,7 +1,8 @@
 import express from "express";
+import handlebars from "express-handlebars";
 import { routerPets } from "./routes/pets.router.js";
 import { routerProductos } from "./routes/productos.router.js";
-import path from "path";
+import { routerVistaProductos } from "./routes/productos.vista.router.js";
 import { __dirname } from "./utils.js";
 const app = express();
 const port = 3000;
@@ -9,11 +10,19 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//CONFIGURACION DEL MOTOR DE HANDLEBARS
+app.engine("handlebars", handlebars.engine());
+app.set("views", __dirname + "/views");
+app.set("view engine", "handlebars");
+
 //archivos publicos
 app.use(express.static(__dirname + "/public"));
-//TODOS NUESTROS ENDPOINT
-app.use("/productos", routerProductos);
-app.use("/pets", routerPets);
+//ENDPOINT TIPO API CON DATOS CRUDOS EN JSON
+app.use("/api/productos", routerProductos);
+app.use("/api/pets", routerPets);
+
+//HTML REAL TIPO VISTA
+app.use("/vista/productos", routerVistaProductos);
 
 app.get("*", (req, res) => {
   return res.status(404).json({
